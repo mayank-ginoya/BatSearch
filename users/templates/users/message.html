@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+
+{% block content %}
+  <main class="messagePage my-xl">
+    <div class="content-box">
+      <div class="message">
+        <a class="backButton" href="{% url 'inbox' %}"><i class="im im-angle-left"></i></a>
+        <h2 class="message__subject">{{messageReq.subject}}</h4>
+          {% if messageReq.sender %}
+          <img class="avatar avatar--sm " src="{{ messageReq.sender.imageURL }}" />
+          <a href="{% url 'user-profile' messageReq.sender.id %}" class="message__author">{{messageReq.sender}}</a>
+          {% else %}
+
+          <spam style="color:red">{{messageReq.name}} (Unknown User)</spam>
+          <p class ="message__date"><i>{{messageReq.email}}</i>
+          {% endif %}
+          {{messageReq.created}}</p>
+          <br>
+          <div class="message__body">
+            {{messageReq.body}}
+          </div>
+          <br>
+          {% if messageReq.sender.id %}
+          <a href="{% url 'create-message' messageReq.sender.id %}?next=/create-message" class="btn btn--sub">Reply </a>
+          {% else %}
+          <spam style="color:red">You Cannot Reply To Person Outside Organization <b>*</b></spam><br>
+          <a href="{% url 'inbox'%}" class ="btn btn--sub">Your Inbox</a>
+          {% endif %}
+        </div>
+    </div>
+   
+  </main>
+{% endblock %}
